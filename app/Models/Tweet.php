@@ -10,6 +10,7 @@ class Tweet extends Model
     /** @use HasFactory<\Database\Factories\TweetFactory> */
     use HasFactory;
 
+
     protected $fillable = ['tweet'];
 
     public function user()
@@ -17,4 +18,5 @@ class Tweet extends Model
         // 多対一
         return $this->belongsTo(User::class);
     }
+
 }
