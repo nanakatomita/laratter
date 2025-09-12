@@ -46,12 +46,16 @@ class User extends Authenticatable
         ];
     }
     public function tweets()
-  {
-    // 一対多
-    return $this->hasMany(Tweet::class);
-  }
-  public function likes()
-  {
-      return $this->belongsToMany(Tweet::class)->withTimestamps();
-  }
+    {
+        // 一対多
+        return $this->hasMany(Tweet::class);
+    }
+    public function likes()
+    {
+        return $this->belongsToMany(Tweet::class)->withTimestamps();
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
