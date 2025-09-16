@@ -26,7 +26,6 @@
             </form>
           </div>
           @endif
-          {{-- 🔽 追加 --}}
           <div class="flex mt-4">
             @if ($tweet->liked->contains(auth()->id()))
             <form action="{{ route('tweets.dislike', $tweet) }}" method="POST">
@@ -41,7 +40,17 @@
             </form>
             @endif
           </div>
-          {{-- 🔼 ここまで --}}
+          <!-- 🔽 追加 -->
+          <div class="mt-4">
+            <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>
+            <a href="{{ route('tweets.comments.create', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">コメントする</a>
+          </div>
+          <!-- 🔽 追加 -->
+          <div class="mt-4">
+            @foreach ($tweet->comments as $comment)
+            <p>{{ $comment->comment }} <span class="text-gray-600 dark:text-gray-400 text-sm">{{ $comment->user->name }} {{ $comment->created_at->format('Y-m-d H:i') }}</span></p>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
