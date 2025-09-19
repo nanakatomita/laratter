@@ -15,6 +15,11 @@ class TweetController extends Controller
     // 🔽 liked のデータも合わせて取得するよう修正
     $tweets = Tweet::with(['user', 'liked'])->latest()->get();
     // dd($tweets);
+    $query = Tweet::query();
+    $tweets = $query
+    ->latest()
+    ->paginate(10);
+
     return view('tweets.index', compact('tweets'));
   }
 
