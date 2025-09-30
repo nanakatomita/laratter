@@ -27,17 +27,37 @@ class ProfileController extends Controller
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+{
+    $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    // バリデーション済みのテキストデータを更新
+    $user->fill($request->validated());
 
-        $request->user()->save();
+    // 自己紹介は fill() で入ってるはずだが念のため
+    $user->bio = $request->input('bio');
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    // アイコン画像のアップロード
+    if ($request->hasFile('avatar')) {
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->avatar = $path;
     }
+
+    // ヘッダー画像のアップロード
+    if ($request->hasFile('header_image')) {
+        $path = $request->file('header_image')->store('headers', 'public');
+        $user->header_image = $path;
+    }
+
+    // メールが変わった場合
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
+    }
+
+    $user->save();
+
+    return Redirect::route('profile.edit')->with('status', 'profile-updated');
+}
+
 
     /**
      * Delete the user's account.
