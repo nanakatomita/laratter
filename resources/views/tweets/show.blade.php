@@ -26,6 +26,7 @@
             </form>
           </div>
           @endif
+          {{-- 🔽 追加 --}}
           <div class="flex mt-4">
             @if ($tweet->liked->contains(auth()->id()))
             <form action="{{ route('tweets.dislike', $tweet) }}" method="POST">
@@ -40,6 +41,23 @@
             </form>
             @endif
           </div>
+            {{-- 🔼 ここまで --}}
+            {{-- 🔽 bookmark追加 --}}
+          <div class="flex mt-4">
+            @if ($tweet->bookmarked->contains(auth()->id()))
+            <form action="{{ route('tweets.unbookmark', $tweet) }}" method="POST">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="text-red-500 hover:text-red-700">ブックマーク解除 {{$tweet->bookmarked->count()}}</button>
+            </form>
+            @else
+            <form action="{{ route('tweets.bookmark', $tweet) }}" method="POST">
+              @csrf
+              <button type="submit" class="text-blue-500 hover:text-blue-700">ブックマーク {{$tweet->bookmarked->count()}}</button>
+            </form>
+            @endif
+          </div>
+            {{-- 🔼 ここまで --}}
           <div class="mt-4">
             <p class="text-gray-600 dark:text-gray-400 ml-4">comment {{ $tweet->comments->count() }}</p>
             <a href="{{ route('tweets.comments.create', $tweet) }}" class="text-blue-500 hover:text-blue-700 mr-2">コメントする</a>
