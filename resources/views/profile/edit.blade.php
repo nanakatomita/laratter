@@ -53,7 +53,7 @@
                         <input type="file" name="avatar" class="mt-1 block">
                         @if($user->avatar)
                             <img src="{{ asset('storage/' . $user->avatar) }}" alt="avatar" width="100"
-                                 class="mt-2 rounded-full border border-gray-300 dark:border-gray-600">
+                                 class="mt-2  border border-gray-300 dark:border-gray-600">
                         @endif
                     </div>
 
