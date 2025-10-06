@@ -26,9 +26,9 @@
         {{-- アイコン --}}
         @if($user->avatar)
           <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar"
-               class="w-16 h-16 rounded-full border-2 border-white dark:border-gray-800 object-cover">
+               class="w-16 h-16  border-2 border-white dark:border-gray-800 object-cover">
         @else
-          <div class="w-16 h-16 rounded-full bg-gray-400 border-2 border-white dark:border-gray-800"></div>
+          <div class="w-16 h-16 l bg-gray-400 border-2 border-white dark:border-gray-800"></div>
         @endif
 
         {{-- 名前・自己紹介 --}}
