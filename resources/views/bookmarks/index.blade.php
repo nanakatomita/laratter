@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-      {{ __('Tweet一覧') }}
+      {{ __('ブックマーク一覧') }}
     </h2>
   </x-slot>
 
@@ -15,7 +15,7 @@
             {{ $tweets->appends(request()->input())->links() }}
           </div>
 
-          @foreach ($tweets as $tweet)
+          @forelse ($tweets as $tweet)
             <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
 
               <!-- 🔽 アイコン + ユーザー名 -->
@@ -23,9 +23,9 @@
                 @if ($tweet->user->avatar)
                   <img src="{{ asset('storage/' . $tweet->user->avatar) }}"
                        alt="User Icon"
-                       class="w-10 h-10  object-cover mr-2 ">
+                       class="w-10 h-10 object-cover mr-2 ">
                 @else
-                  <div class="w-10 h-10  bg-gray-400 flex items-center justify-center mr-2">
+                  <div class="w-10 h-10 bg-gray-400 flex items-center justify-center mr-2">
                     <span class="text-xs text-white"></span>
                   </div>
                 @endif
@@ -38,6 +38,7 @@
 
               <p class="text-gray-800 dark:text-gray-300">{{ $tweet->tweet }}</p>
               <a href="{{ route('tweets.show', $tweet) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
+
               {{-- 🔽 いいねボタン --}}
               <div class="flex mt-2">
                 @if ($tweet->liked->contains(auth()->id()))
@@ -57,8 +58,8 @@
                   </form>
                 @endif
               </div>
-              {{-- 🔼 ここまで --}}
-              {{-- ブックマークボタン --}}
+
+              {{-- 🔽 ブックマークボタン --}}
               <div class="flex mt-2">
                 @if ($tweet->bookmarked->contains(auth()->id()))
                   <form action="{{ route('tweets.unbookmark', $tweet) }}" method="POST">
@@ -77,9 +78,11 @@
                   </form>
                 @endif
               </div>
-              {{-- ここまで --}}
+              {{-- 🔼 ここまで --}}
             </div>
-          @endforeach
+          @empty
+            <p class="text-gray-500 dark:text-gray-400">ブックマークした投稿はまだありません。</p>
+          @endforelse
 
           <!-- ページネーション -->
           <div class="mt-4">
